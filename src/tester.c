@@ -10,7 +10,7 @@
 */
 
 #define TEST_TOKENIZER 1
-#define TEST_HISTORY 1
+#define TEST_HISTORY 0
 
 /* MinUnit: http://www.jera.com/techinfo/jtns/jtn002.html */
  #define mu_assert(message, test) do { if (!(test)) return message; } while (0)
@@ -20,26 +20,41 @@ int tests_run;
 
 
 /* Tokenizer test cases */
-static char *test_string_length() {
-    mu_assert("string_length('happy') == 5", string_length("happy") == 5);
+static char *test_space_char() {
+    mu_assert("space_char(' ') == 1", space_char(' ') == 1);
+    mu_assert("space_char('\\t') == 1", space_char('\t') == 1);
+    mu_assert("space_char('\\0') == 0", space_char('\0') == 0);
+    mu_assert("space_char('A') == 0", space_char('A') == 0);
+    mu_assert("space_char('1') == 0", space_char('1') == 0);
+    mu_assert("space_char('_') == 0", space_char('_') == 0);
     return 0;
 }
-static char *test_is_valid_character() {
-    mu_assert("is_valid_character(' ') == 0", is_valid_character(' ') == 0);
-    mu_assert("is_valid_character('h') == 1", is_valid_character('h') == 1);
+static char *test_non_space_char() {
+    mu_assert("non_space_char(' ') == 0", non_space_char(' ') == 0);
+    mu_assert("non_space_char('\\t') == 0", non_space_char('\t') == 0);
+    mu_assert("non_space_char('\\0') == 0", non_space_char('\0') == 0);
+    mu_assert("non_space_char('A') == 1", non_space_char('A') == 1);
+    mu_assert("non_space_char('1') == 1", non_space_char('1') == 1);
+    mu_assert("non_space_char('_') == 1", non_space_char('_') == 1);
     return 0;
 }
 
-static char *test_find_word_start() {
+static char *test_word_start() {
     char *str = "  happy";
-    mu_assert("find_word_start('  happy') == &str[2]'", find_word_start(str) == &str[2]);
+    mu_assert("word_start('  happy') == &str[2]", word_start(str) == &str[2]);
+
+    char *str2 = "\t\thappy";
+    mu_assert("word_start('\\t\\thappy') == &str2[2]", word_start(str2) == &str2[2]);
+
+    char *str3 = "happy";
+    mu_assert("word_start('happy') == &str3[0]", word_start(str3) == &str3[0]);
     return 0;
 }
 
-static char *test_find_word_terminator() {
+static char *test_word_terminator() {
   char *str = "happy joy", *empty="";
-    mu_assert("find_word_terminator('happy joy') == &str[5]' '", find_word_terminator(str) == &str[5]);
-    mu_assert("find_word_terminator(emptyStr) == empty", find_word_terminator(empty) == empty);
+    mu_assert("word_terminator('happy joy') == &str[5]", word_terminator(str) == &str[5]);
+    mu_assert("word_terminator(emptyStr) == empty", word_terminator(empty) == empty);
     return 0;
 }
 
@@ -47,6 +62,18 @@ static char *test_count_words() {
     char *str = "happy happy joy joy";
     mu_assert("count_words('happy happy joy joy') == 4", count_words(str) == 4);
     return 0;
+}
+
+static char *test_copy_str() {
+  char *str = "Why, hello there...";
+  char *str2 = copy_str(str, strlen(str));
+  mu_assert("&str != &str2", str != str2);
+  mu_assert("str == str2", strcmp(str, str2) == 0);
+
+  char *str3 = copy_str(str, 4);
+  mu_assert("&str != &str3", str != str3);
+  mu_assert("str3 == 'Why,'", strcmp("Why,", str3) == 0);
+  return 0;
 }
 
 static char *test_tokenize() {
@@ -80,12 +107,13 @@ static char *test_get_history() {
 
 static char *all_tests() {
     if (TEST_TOKENIZER) {
-        mu_run_test(test_string_length);
-        mu_run_test(test_is_valid_character);
-        mu_run_test(test_find_word_start);
-        mu_run_test(test_find_word_terminator);
+        mu_run_test(test_space_char);
+        mu_run_test(test_non_space_char);
+        mu_run_test(test_word_start);
+        mu_run_test(test_word_terminator);
         mu_run_test(test_count_words);
-        mu_run_test(test_tokenize);
+        mu_run_test(test_copy_str);
+//        mu_run_test(test_tokenize);
     }
 
     if (TEST_HISTORY) {
