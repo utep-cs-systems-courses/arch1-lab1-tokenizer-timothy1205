@@ -52,4 +52,5 @@ Mkfile.old
 dkms.conf
 
 src/tokenizer
+src/tokenizer-test
 *.swp
