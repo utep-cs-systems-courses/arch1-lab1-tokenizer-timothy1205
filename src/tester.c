@@ -83,6 +83,7 @@ static char *test_tokenize() {
     mu_assert("tokens[1] == 'happy'", strcmp(tokens[1], "happy") == 0);
     mu_assert("tokens[2] == 'joy'", strcmp(tokens[2], "joy") == 0);
     mu_assert("tokens[3] == 'joy'", strcmp(tokens[3], "joy") == 0);
+    mu_assert("tokens[4] == 0", !tokens[4]);
     free_tokens(tokens);
     return 0;
 }
@@ -113,7 +114,7 @@ static char *all_tests() {
         mu_run_test(test_word_terminator);
         mu_run_test(test_count_words);
         mu_run_test(test_copy_str);
-//        mu_run_test(test_tokenize);
+        mu_run_test(test_tokenize);
     }
 
     if (TEST_HISTORY) {

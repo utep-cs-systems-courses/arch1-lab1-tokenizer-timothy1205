@@ -106,3 +106,50 @@ char *copy_str(char *inStr, short len)
 
   return outStr;
 }
+
+char **tokenize(char* str)
+{
+  int words = count_words(str);
+  // Add 1 to allow for zero pointer
+  char **tokens = malloc(sizeof(char*) * (words + 1));
+
+  if (!tokens) {
+    fprintf(stderr, "tokenize: Memory alloation error!");
+    exit(EXIT_FAILURE);
+  }
+  
+  str = word_start(str);
+  for (int i = 0; i < words; ++i) {
+    char* terminator = word_terminator(str);
+    tokens[i] = copy_str(str, terminator - str);
+
+    str = word_start(terminator);
+  }
+
+  // Point the last pointer to nothing
+  char **terminator = tokens + words;
+  *terminator = 0;
+
+  return tokens;
+}
+
+void print_tokens(char **tokens)
+{
+  printf("{\n");
+  for (char** token = tokens; *token != 0; token++)
+    printf("\t[%ld] '%s'\n", token - tokens, *token);
+  printf("}\n\n");
+}
+
+void free_tokens(char **tokens)
+{
+  char **token = tokens;
+    while(*token != 0) {
+      free(*token);
+      token++;
+    }
+  // Free final token
+  free(*token);
+  // Free array of pointers
+  free(tokens);
+}
