@@ -10,7 +10,7 @@
 */
 
 #define TEST_TOKENIZER 1
-#define TEST_HISTORY 0
+#define TEST_HISTORY 1
 
 /* MinUnit: http://www.jera.com/techinfo/jtns/jtn002.html */
  #define mu_assert(message, test) do { if (!(test)) return message; } while (0)
@@ -95,6 +95,7 @@ static char *test_add_history() {
     mu_assert("add_history(list, 'happy')", strcmp(list->root->str, "happy") == 0);
     add_history(list, "joy");
     mu_assert("add_history(list, 'joy')", strcmp(list->root->next->str, "joy") == 0);
+    free_history(list);
     return 0;
 }
 
@@ -102,6 +103,7 @@ static char *test_get_history() {
     List* list = init_history();
     add_history(list, "happy");
     mu_assert("get_history(list, 1)", strcmp(get_history(list, 1), "happy") == 0);
+    free_history(list);
     return 0;
 }
 
