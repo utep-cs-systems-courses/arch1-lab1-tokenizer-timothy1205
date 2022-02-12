@@ -1,11 +1,16 @@
 #include <stdlib.h>
 #include <stdio.h>
+#include <string.h>
 #include "history.h"
 #include "tokenizer.h"
 
 List* init_history()
 {
   List *list = (List*) calloc(1, sizeof(List));
+  if (!list) {
+    fprintf(stderr, "init_history: Memory allocation error!");
+    exit(EXIT_FAILURE);
+  }
 
   return list;
 }
@@ -13,7 +18,12 @@ List* init_history()
 void add_history(List *list, char *str)
 {
   Item *newItem = (Item*) malloc(sizeof(Item));
-  newItem->str = copy_str(str, sizeof(str));
+  if (!newItem) {
+    fprintf(stderr, "add_history: Memory allocation error!");
+    exit(EXIT_FAILURE);
+  }
+
+  newItem->str = copy_str(str, strlen(str));
 
   Item *item = list->root;
 
@@ -38,7 +48,8 @@ void add_history(List *list, char *str)
   }
 }
 
-char *get_history(List *list, int id) {
+char *get_history(List *list, int id)
+{
   Item* item = list->root;
   while(item) {
     if (item->id == id)
@@ -50,19 +61,29 @@ char *get_history(List *list, int id) {
   return 0;
 }
 
-void free_history(List *list) {
+void print_history(List *list)
+{
+  Item* item = list->root;
+  while(item) {
+    printf("[%d] '%s'\n", item->id, item->str); 
+    item = item->next;
+  }
+}
+
+void free_history(List *list)
+{
   Item *item = list->root;
   Item *prevItem;
-    while (item) {
-      prevItem = item;
-      item = item->next;
+  while (item) {
+    prevItem = item;
+    item = item->next;
 
-      // Free malloc string and node
-      free(prevItem->str);
-      free(prevItem);
-    }
+    // Free malloc string and node
+    free(prevItem->str);
+    free(prevItem);
+  }
 
-    // Free linked list
-    free(list);
+  // Free linked list
+  free(list);
 }
 

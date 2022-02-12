@@ -1,4 +1,3 @@
-#include <stddef.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include "tokenizer.h"
@@ -40,7 +39,7 @@ char *word_start(char *str)
       return str;
   } while (*(++str) != '\0');
 
-  return NULL;
+  return 0;
 }
 
 char *word_terminator(char *word)
@@ -53,7 +52,7 @@ char *word_terminator(char *word)
     word++;
   }
 
-  return NULL;
+  return 0;
 }
 
 int count_words(char *str)

@@ -93,8 +93,8 @@ static char *test_add_history() {
     List* list = init_history();
     add_history(list, "happy");
     mu_assert("add_history(list, 'happy')", strcmp(list->root->str, "happy") == 0);
-    add_history(list, "joy");
-    mu_assert("add_history(list, 'joy')", strcmp(list->root->next->str, "joy") == 0);
+    add_history(list, "happy joy");
+    mu_assert("add_history(list, 'happy joy')", strcmp(list->root->next->str, "happy joy") == 0);
     free_history(list);
     return 0;
 }
