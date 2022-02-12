@@ -77,7 +77,7 @@ char *copy_str(char *inStr, short len)
   // Add 1 for zero-terminator
   char *outStr = (char*) malloc(sizeof(char) * len + 1);
   if (!outStr) {
-    fprintf(stderr, "copy_str: Memory alloation error!");
+    fprintf(stderr, "copy_str: Memory allocation error!");
     exit(EXIT_FAILURE);
   }
  
@@ -113,7 +113,7 @@ char **tokenize(char* str)
   char **tokens = malloc(sizeof(char*) * (words + 1));
 
   if (!tokens) {
-    fprintf(stderr, "tokenize: Memory alloation error!");
+    fprintf(stderr, "tokenize: Memory allocation error!");
     exit(EXIT_FAILURE);
   }
   
