@@ -1,8 +1,8 @@
 OBJS = tokenizer.o history.o
-OBJS_MAIN := $(OBJS) uimain.o
-OBJS_TEST := $(OBJS) tester.o
+OBJS_MAIN = $(OBJS) uimain.o
+OBJS_TEST = $(OBJS) tester.o
 
-CFLAGS=-g -O3
+CFLAGS =-g -O3
 
 tokenizer.o uimain.o: tokenizer.h
 history.o uimain.o: history.h

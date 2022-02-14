@@ -4,32 +4,12 @@
 
 int space_char(char c)
 {
-  switch (c) {
-    case ' ':
-      return 1;
-    case '\t':
-      return 1;
-    default:
-      return 0;
-  }
-
-  return 0;
+  return c == ' ' || c == '\t';
 }
 
 int non_space_char(char c)
 {
-  switch (c) {
-    case ' ':
-      return 0;
-    case '\t':
-      return 0;
-    case '\0':
-      return 0;
-    default:
-      return 1;
-  }
-
-  return 0;
+  return c != ' ' && c != '\t' && c != '\0';
 }
 
 char *word_start(char *str)
