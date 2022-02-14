@@ -38,13 +38,13 @@ char *word_terminator(char *word)
 int count_words(char *str)
 {
   int words = 0;
-  char inWord = 0;
+  char in_word = 0;
   
   do {
-    if (inWord && space_char(*str)) {
-      inWord = 0;
-    } else if (!inWord && non_space_char(*str)) {
-      inWord = 1;
+    if (in_word && space_char(*str)) {
+      in_word = 0;
+    } else if (!in_word && non_space_char(*str)) {
+      in_word = 1;
       words++;
     }
   } while(*(++str) != '\0');
@@ -52,16 +52,16 @@ int count_words(char *str)
   return words;
 }
 
-char *copy_str(char *inStr, short len)
+char *copy_str(char *in_str, short len)
 {
   // Add 1 for zero-terminator
-  char *outStr = (char*) malloc(sizeof(char) * len + 1);
-  if (!outStr) {
+  char *out_str = (char*) malloc(sizeof(char) * len + 1);
+  if (!out_str) {
     fprintf(stderr, "copy_str: Memory allocation error!");
     exit(EXIT_FAILURE);
   }
  
-  char *c = outStr;
+  char *c = out_str;
 
   /* 
    * Loop over word for length characters
@@ -69,7 +69,7 @@ char *copy_str(char *inStr, short len)
    * can copy both zero-terminated strings and substrings
    */
   for (short i = 0; i < len; ++i) {
-    *c = *inStr;
+    *c = *in_str;
 
     // Break to prevent copying potentially unmanaged data
     if (*c == '\0') {
@@ -77,13 +77,13 @@ char *copy_str(char *inStr, short len)
     }
 
     c++;
-    inStr++;
+    in_str++;
   }
 
   // Ensure string is zero-terminated
   *c = '\0';
 
-  return outStr;
+  return out_str;
 }
 
 char **tokenize(char* str)

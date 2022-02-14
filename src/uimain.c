@@ -5,7 +5,7 @@
 #include "tokenizer.h"
 #define BUFFER_SIZE 500
 
-static void process_command(char *buffer, List *history, int historyLength) {
+static void process_command(char *buffer, List *history, int history_length) {
   // Command input
   if (buffer[1] == '\0' || buffer[1] == ' ' || buffer[1] == '0') {
     // '!0' or just '!''
@@ -20,7 +20,7 @@ static void process_command(char *buffer, List *history, int historyLength) {
 
     int id = atoi(&buffer[1]);
     if (id > 0) {
-      char *str = get_history(history, historyLength - id + 1);
+      char *str = get_history(history, history_length - id + 1);
       if (!str) {
         puts("[ERROR] No history found!");
         return;
@@ -41,16 +41,16 @@ int main(int argc, char** argv)
 
   char buffer[BUFFER_SIZE];
   List *history = init_history();
-  int historyLength = 0;
+  int history_length = 0;
   
   while (1) {
     printf("$ ");
     fgets(buffer, BUFFER_SIZE, stdin);
 
     // Remove new line from input
-    char *newLine = strchr(buffer, '\n');
-    if (newLine) {
-      *newLine = '\0'; // Terminate string early
+    char *new_line = strchr(buffer, '\n');
+    if (new_line) {
+      *new_line = '\0'; // Terminate string early
     }
 
     // Ignore whitespace only strings
@@ -58,11 +58,11 @@ int main(int argc, char** argv)
       continue;
 
     if (buffer[0] == '!') {
-      process_command(buffer, history, historyLength);
+      process_command(buffer, history, history_length);
    } else {
       puts(buffer);
       add_history(history, buffer);
-      historyLength++;
+      history_length++;
     }
   }
 }

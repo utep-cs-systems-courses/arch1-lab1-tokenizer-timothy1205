@@ -24,8 +24,8 @@ char *word_terminator(char *word);
 int count_words(char *str);
 
 /* Returns a fresly allocated new zero-terminated string 
-   containing <len> chars from <inStr> */
-char *copy_str(char *inStr, short len);
+   containing <len> chars from <in_str> */
+char *copy_str(char *in_str, short len);
 
 /* Returns a freshly allocated zero-terminated vector of freshly allocated 
    space-separated tokens from zero-terminated str.

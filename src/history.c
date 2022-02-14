@@ -17,34 +17,34 @@ List* init_history()
 
 void add_history(List *list, char *str)
 {
-  Item *newItem = (Item*) malloc(sizeof(Item));
-  if (!newItem) {
+  Item *new_item = (Item*) malloc(sizeof(Item));
+  if (!new_item) {
     fprintf(stderr, "add_history: Memory allocation error!");
     exit(EXIT_FAILURE);
   }
 
-  newItem->str = copy_str(str, strlen(str));
+  new_item->str = copy_str(str, strlen(str));
 
   Item *item = list->root;
 
   // List id starts at 1
   if (!item) {
     // Create root node
-    list->root = newItem;
-    newItem->id = 1;
+    list->root = new_item;
+    new_item->id = 1;
     
   } else {
     // Get last item in list
     int id = 1;
-    Item *prevItem;
+    Item *prev_item;
     while (item) {
-      prevItem = item;
+      prev_item = item;
       item = item->next;
       id++;
     }
 
-    prevItem->next = newItem;
-    newItem->id = id;
+    prev_item->next = new_item;
+    new_item->id = id;
   }
 }
 
@@ -73,14 +73,14 @@ void print_history(List *list)
 void free_history(List *list)
 {
   Item *item = list->root;
-  Item *prevItem;
+  Item *prev_item;
   while (item) {
-    prevItem = item;
+    prev_item = item;
     item = item->next;
 
     // Free malloc string and node
-    free(prevItem->str);
-    free(prevItem);
+    free(prev_item->str);
+    free(prev_item);
   }
 
   // Free linked list
