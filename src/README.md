@@ -1,5 +1,9 @@
 Project 1: Tokenizer
 ====================
+## Project Description
+The goal of this project is to create a shell-like interface that receives input and saves it to
+memory. Additionally the program must contain commands to print out the history and
+tokenize/print specific entries. To tokenize an input means to split it up by words (whitespace).
 
 ## Compiling & Running
 - `make` or `make all` will compile the `tokenizer` executable.
