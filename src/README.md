@@ -17,7 +17,5 @@ tokenize/print specific entries. To tokenize an input means to split it up by wo
   accepting input.
 - All commands are prefixed with a `!`.
   - `!` or `!0` will print your input history (excluding commands).
-    - **NOTE:** The numbers printed next to the inputs correspond to the order they were entered and
-      do not match the below command.
   - `!N` where N is a positive number corresponding to the Nth most recent input will cause that input to be tokenized and printed.
   - `!q` will terminate the program.

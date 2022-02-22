@@ -5,7 +5,7 @@
 #include "tokenizer.h"
 #define BUFFER_SIZE 500
 
-static void process_command(char *buffer, List *history, int history_length) {
+static void process_command(char *buffer, List *history) {
   // Command input
   if (buffer[1] == '\0' || buffer[1] == ' ' || buffer[1] == '0') {
     // '!0' or just '!''
@@ -13,6 +13,7 @@ static void process_command(char *buffer, List *history, int history_length) {
     print_history(history);
   } else {
     if (buffer[1] == 'q') {
+      // Quit program
       puts("[SYSTEM] Termination command received! Exiting...");
       free_history(history);
       exit(EXIT_SUCCESS);
@@ -20,7 +21,8 @@ static void process_command(char *buffer, List *history, int history_length) {
 
     int id = atoi(&buffer[1]);
     if (id > 0) {
-      char *str = get_history(history, history_length - id + 1);
+      // If specified id is valid attempt to get history
+      char *str = get_history(history, history->length - id + 1);
       if (!str) {
         puts("[ERROR] No history found!");
         return;
@@ -30,6 +32,7 @@ static void process_command(char *buffer, List *history, int history_length) {
       print_tokens(tokens);
       free_tokens(tokens);
     } else {
+      // Unrecognized command
       puts("[ERROR] Invalid command!");
     }
   }
@@ -41,7 +44,6 @@ int main(int argc, char** argv)
 
   char buffer[BUFFER_SIZE];
   List *history = init_history();
-  int history_length = 0;
   
   while (1) {
     printf("$ ");
@@ -58,11 +60,10 @@ int main(int argc, char** argv)
       continue;
 
     if (buffer[0] == '!') {
-      process_command(buffer, history, history_length);
+      process_command(buffer, history);
    } else {
       puts(buffer);
       add_history(history, buffer);
-      history_length++;
     }
   }
 }
